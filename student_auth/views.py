@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+import re
 
 from django.utils.encoding import DjangoUnicodeDecodeError, force_bytes,force_str
 from django.conf import settings
@@ -31,7 +32,13 @@ def send_activation_email(user, request):
 
     send_mail(email_subject, email_body,settings.EMAIL_HOST_USER,[user.email])
 
+def validateEmail(email):
+    EmailRegex = r'^([a-z\d\.-]+)@bmsce.ac.in'
+    return re.match(EmailRegex, email)
 
+def validatePassword(password):
+    passwordRegex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$'
+    return re.match(passwordRegex, password)
 
 def student_signup(request):
 
@@ -41,10 +48,18 @@ def student_signup(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
-
+        
+        if not validateEmail(email):
+            messages.add_message(request, messages.ERROR,'Invalid Email')
+            return render(request, 'student_signup.html',  status=409)
+        
+        if not validatePassword(password):
+            messages.add_message(request, messages.ERROR,' Password must contain minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character')
+            return render(request, 'student_signup.html',  status=409)
+        
         if password != confirm_password:
             messages.add_message(request, messages.ERROR,'Password mismatch')
-            return render(request, 'student_signin.html',  status=409)
+            return render(request, 'student_sign.html',  status=409)
 
         if User.objects.filter(email=email).exists():
             messages.add_message(request, messages.ERROR,'You are already Registered,SignIn!')
@@ -78,10 +93,10 @@ def student_signin(request):
         if not user:
             messages.add_message(request,messages.ERROR,"Invalid credentials, try again")
             return render(request, 'student_signin.html',  status=409)
-        messages.add_message(request, messages.SUCCESS,'Welcome {}'.format(user.name))
+        #messages.add_message(request, messages.SUCCESS,'Welcome {}'.format(user.name))
         login(request,user)
         # here edit
-        return redirect(reverse('student_signin'))
+        return redirect(reverse('dashboard'))
     return render(request, 'student_signin.html')
 
 
@@ -89,7 +104,8 @@ def signout(request):
     logout(request)
     messages.add_message(request, messages.SUCCESS,'Successfully logged out')
     # edit here
-    return redirect(reverse('student_signin'))
+    
+    return redirect(reverse('home'))
 
 
 def forgotPassword(request):
@@ -161,6 +177,7 @@ def faculty_signin(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
+        
 
         user = authenticate(request, email=email, password=password)
 
@@ -175,10 +192,10 @@ def faculty_signin(request):
         if not user:
             messages.add_message(request,messages.ERROR,"Invalid credentials, try again")
             return render(request, 'faculty_signin.html',  status=409)
-        messages.add_message(request, messages.SUCCESS,'Welcome {}'.format(user.name))
+        #messages.add_message(request, messages.SUCCESS,'Welcome {}'.format(user.name))
         login(request,user)
         # here edit
-        return redirect(reverse('faculty_signin'))
+        return redirect(reverse('dashboard'))
     return render(request, 'faculty_signin.html')
 
 def faculty_signup(request):
@@ -187,10 +204,18 @@ def faculty_signup(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+        
+        if not validateEmail(email):
+            messages.add_message(request, messages.ERROR,'Invalid Email')
+            return render(request, 'faculty_signup.html',  status=409)
+        
+        if not validatePassword(password):
+            messages.add_message(request, messages.ERROR,' Password must contain minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character')
+            return render(request, 'faculty_signup.html',  status=409)
 
         if password != confirm_password:
             messages.add_message(request, messages.ERROR,'Password mismatch')
-            return render(request, 'faculty_signin.html',  status=409)
+            return render(request, 'faculty_signup.html',  status=409)
 
         if User.objects.filter(email=email).exists():
             messages.add_message(request, messages.ERROR,'You are already Registered,SignIn!')
@@ -208,3 +233,6 @@ def faculty_signup(request):
 
 def homepage(request):
     return render(request, "index.html")
+
+def dashboard(request):
+    return render(request, 'dashboard.html')

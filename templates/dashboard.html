@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="center" style="padding: 10%;">
+    <div class="container" style="background-color: #c0daf1; padding: 5%; border: 1px solid #205d92; border-radius: 25px;">
+        <h4 style="color: #205d92; font-family: 'Sono', sans-serif">
+            {% if user.is_teacher %}
+            Hi, {{user.name}}, you are a faculty
+            {% else %}
+            Hi, {{user.name}}, you are student
+            {% endif %}
+        </h4>
+    </div>
+</div>
+{% endblock content %}

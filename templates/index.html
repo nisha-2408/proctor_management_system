@@ -10,6 +10,7 @@
     <div class="col padding wrap">
         <h3 class="caption">Welcome to Proctor Management</h3>
         <p class="subcaption">Please login or signin to continue.</p>
+        <div style="width: 50%;"><h5>{% include 'authentication/messages.html'%}</h5></div>
         <div class="list-style">
             <ul>
                 <li class="student"><a href="{% url 'student_signin' %}">Student Sign In</a></li>
