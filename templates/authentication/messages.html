@@ -1,0 +1,18 @@
+{% if messages %}
+
+
+{% for message in messages %}
+
+
+<div class="ui {{message.tags}} message text-center" style='background-color: #fdb4b4; color: #fb3737; padding: 5%; border-radius: 5px;'>
+    {{message}}
+</div>
+
+
+
+{% endfor %}
+
+
+
+
+{% endif %}
