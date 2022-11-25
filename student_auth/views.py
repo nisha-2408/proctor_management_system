@@ -36,11 +36,19 @@ def validateEmail(email):
     EmailRegex = r'^([a-z\d\.-]+)@bmsce.ac.in'
     return re.match(EmailRegex, email)
 
+def validateEmailFaculty(email):
+    EmailRegex = r'^([a-z]+).cse@bmsce.ac.in'
+    return re.match(EmailRegex, email)
+
 def validatePassword(password):
     passwordRegex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$'
     return re.match(passwordRegex, password)
 
 def student_signup(request):
+    
+    c=request.get_full_path()
+    k = 'signin' in c or 'signup' in c
+    context={'current_path': k}
 
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -50,16 +58,16 @@ def student_signup(request):
         confirm_password = request.POST.get('confirm_password')
         
         if not validateEmail(email):
-            messages.add_message(request, messages.ERROR,'Invalid Email')
-            return render(request, 'student_signup.html',  status=409)
+            messages.add_message(request, messages.ERROR,'Enter your BMSCE Mail')
+            return render(request, 'student_signup.html', context,  status=409)
         
         if not validatePassword(password):
             messages.add_message(request, messages.ERROR,' Password must contain minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character')
-            return render(request, 'student_signup.html',  status=409)
+            return render(request, 'student_signup.html', context,  status=409)
         
         if password != confirm_password:
             messages.add_message(request, messages.ERROR,'Password mismatch')
-            return render(request, 'student_sign.html',  status=409)
+            return render(request, 'student_sign.html', context,  status=409)
 
         if User.objects.filter(email=email).exists():
             messages.add_message(request, messages.ERROR,'You are already Registered,SignIn!')
@@ -73,9 +81,14 @@ def student_signup(request):
         messages.add_message(request, messages.SUCCESS, 'We sent you an email to verify your account')
         return redirect(reverse('student_signin'))
 
-    return render(request, 'student_signup.html')
+    return render(request, 'student_signup.html', context)
 
 def student_signin(request):
+    c=request.get_full_path()
+    k = 'signin' in c or 'signup' in c
+    context={'current_path': k}
+    if request.user.is_authenticated and not request.user.is_teacher :
+        return redirect('dashboard')
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -84,20 +97,20 @@ def student_signin(request):
         
         if user and user.is_teacher:
             messages.add_message(request,messages.ERROR,"Invalid credentials, try again")
-            return render(request, 'student_signin.html',  status=409)
+            return render(request, 'student_signin.html', context,  status=409)
 
         if user and not user.is_email_verified:
             messages.add_message(request,messages.ERROR,"Student Email Not Verified! Check your Inbox ")
-            return render(request, 'student_signin.html',  status=409)
+            return render(request, 'student_signin.html', context,  status=409)
                 
         if not user:
             messages.add_message(request,messages.ERROR,"Invalid credentials, try again")
-            return render(request, 'student_signin.html',  status=409)
+            return render(request, 'student_signin.html', context,  status=409)
         #messages.add_message(request, messages.SUCCESS,'Welcome {}'.format(user.name))
         login(request,user)
         # here edit
         return redirect(reverse('dashboard'))
-    return render(request, 'student_signin.html')
+    return render(request, 'student_signin.html', context)
 
 
 def signout(request):
@@ -124,7 +137,7 @@ def forgotPassword(request):
             'token': generate_token.make_token(user)
             })
             send_mail(email_subject, email_body,settings.EMAIL_HOST_USER,[email])
-            messages.add_message(request, messages.SUCCESS,'Mail has been sent to your Registered Email address {}'.format(email))
+            #messages.add_message(request, messages.SUCCESS,'Mail has been sent to your Registered Email address {}'.format(email))
             return redirect(reverse('password_reset_done'))
         else:
             messages.error(request,'Email address does not exist')
@@ -142,7 +155,7 @@ def resetPassword(request,uidb64,token):
                 if password1 == password2:
                     user.password = make_password(password1)
                     user.save()
-                    messages.success(request,'Password has been reset successfully')
+                    #messages.success(request,'Password has been reset successfully')
                     return redirect(reverse('password_reset_complete'))
                 else:
                     return HttpResponse('Two Password did not match')
@@ -174,6 +187,12 @@ def activate(request, uidb64, token):
     return HttpResponse("Something wrong with your Link!")
 
 def faculty_signin(request):
+    c=request.get_full_path()
+    k = 'signin' in c or 'signup' in c
+    context={'current_path': k}
+    if request.user.is_authenticated and request.user.is_teacher :
+        return redirect('dashboard')
+        
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -183,39 +202,43 @@ def faculty_signin(request):
 
         if user and not user.is_email_verified:
             messages.add_message(request,messages.ERROR,"Faculty Email Not Verified! Check your Inbox ")
-            return render(request, 'faculty_signin.html',  status=409)
+            return render(request, 'faculty_signin.html', context,  status=409,)
         
         if user and not user.is_teacher:
             messages.add_message(request,messages.ERROR,"Invalid credentials, try again")
-            return render(request, 'faculty_signin.html',  status=409)
+            return render(request, 'faculty_signin.html', context,  status=409)
                 
         if not user:
             messages.add_message(request,messages.ERROR,"Invalid credentials, try again")
-            return render(request, 'faculty_signin.html',  status=409)
+            return render(request, 'faculty_signin.html', context,  status=409)
         #messages.add_message(request, messages.SUCCESS,'Welcome {}'.format(user.name))
         login(request,user)
         # here edit
         return redirect(reverse('dashboard'))
-    return render(request, 'faculty_signin.html')
+    return render(request, 'faculty_signin.html', context)
 
 def faculty_signup(request):
+    c=request.get_full_path()
+    k = 'signin' in c or 'signup' in c
+    print(k)
+    context={'current_path': k}
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
         
-        if not validateEmail(email):
-            messages.add_message(request, messages.ERROR,'Invalid Email')
-            return render(request, 'faculty_signup.html',  status=409)
+        if not validateEmailFaculty(email):
+            messages.add_message(request, messages.ERROR,'Only Faculty Mail allowed')
+            return render(request, 'faculty_signup.html', context,  status=409)
         
         if not validatePassword(password):
             messages.add_message(request, messages.ERROR,' Password must contain minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character')
-            return render(request, 'faculty_signup.html',  status=409)
+            return render(request, 'faculty_signup.html', context,  status=409)
 
         if password != confirm_password:
             messages.add_message(request, messages.ERROR,'Password mismatch')
-            return render(request, 'faculty_signup.html',  status=409)
+            return render(request, 'faculty_signup.html', context,  status=409)
 
         if User.objects.filter(email=email).exists():
             messages.add_message(request, messages.ERROR,'You are already Registered,SignIn!')
@@ -229,10 +252,12 @@ def faculty_signup(request):
         send_activation_email(user,request)
         messages.add_message(request, messages.SUCCESS, 'We sent you an email to verify your account')
         return redirect(reverse('faculty_signin'))
-    return render(request, 'faculty_signup.html')
+    return render(request, 'faculty_signup.html', context)
 
 def homepage(request):
-    return render(request, "index.html")
+    context = {'current_path': request.get_full_path()}
+    return render(request, "index.html", context)
+
 
 def dashboard(request):
     return render(request, 'dashboard.html')

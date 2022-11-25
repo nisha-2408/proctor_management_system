@@ -12,7 +12,7 @@
             <li class="nav-item campus-portal">
               <a class="nav-link" href="https://webcampus.bmsce.in/" target="_blank">Campus Portal</a>
             </li>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and not current_path %}
             <li class="nav-item campus-portal" style="margin-left: 2%;">
               <a class="nav-link" href="{% url 'signout' %}">Log Out</a>
             </li>
