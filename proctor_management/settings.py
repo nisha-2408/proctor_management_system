@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'student_auth',
+    'faculty_dashboard',
+    'student_dashboard'
 ]
 
 MIDDLEWARE = [

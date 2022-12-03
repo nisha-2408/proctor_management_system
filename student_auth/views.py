@@ -11,6 +11,8 @@ from django.utils.encoding import DjangoUnicodeDecodeError, force_bytes,force_st
 from django.conf import settings
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.urls import reverse
+from student_dashboard.models import Student
+from faculty_dashboard.models import Faculty
 
 
 from .models import User
@@ -52,7 +54,7 @@ def student_signup(request):
 
     if request.method == 'POST':
         name = request.POST.get('name')
-        #usn = request.POST.get('usn')
+        usn = request.POST.get('usn')
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
@@ -74,7 +76,11 @@ def student_signup(request):
             return redirect(reverse('student_signin'))
 
         user=User.objects.create_user(email=email,name=name)
-        #user.usn=usn
+        details=Student()
+        details.name=name
+        details.USN=usn
+        details.email=email
+        details.save()
         user.set_password(password)
         user.save()
         send_activation_email(user,request)
@@ -109,7 +115,12 @@ def student_signin(request):
         #messages.add_message(request, messages.SUCCESS,'Welcome {}'.format(user.name))
         login(request,user)
         # here edit
-        return redirect(reverse('dashboard'))
+        student=Student.objects.get(email=email)
+        if(student.proctor_id):
+            return redirect(reverse('dashboard'))
+        else:
+            #edit the message
+            return HttpResponse("You do not have a proctor")
     return render(request, 'student_signin.html', context)
 
 
@@ -245,6 +256,10 @@ def faculty_signup(request):
             return redirect(reverse('faculty_signin'))
 
         user=User.objects.create_user(email=email,name=name)
+        details=Faculty()
+        details.name=name
+        details.email=email
+        details.save()
         user.set_password(password)
         user.is_teacher=True
         user.save()
