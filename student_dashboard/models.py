@@ -25,122 +25,25 @@ class CGPA(models.Model):
     class Meta:
         ordering = ['USN']
     
+class courseRequest(models.Model):
+    faculty = models.OneToOneField(Faculty, on_delete=models.DO_NOTHING)
+    no_subjects = models.IntegerField(max_length=1)
+    student_usn = models.CharField(max_length=10)
+    sem = models.IntegerField()
     
-class Sem1(models.Model):
+class Sem(models.Model):
     USN=models.CharField(max_length=10)
+    sem=models.IntegerField()
     #cycle=models.CharField(max_length=50)
     courseName=models.TextField()
     courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
+    credit=models.TextField()
     registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )
+    attemptNumber=models.TextField(blank=True, null=True)
+    attendance=models.TextField(blank=True, null=True)
+    CIE=models.TextField(blank=True, null=True)
+    SEE=models.CharField(max_length=1, blank=True, null=True)
+    GradePoints=models.TextField(blank=True, null=True)
     #courses to be cleared if any
     #proctor remarks
     
-class Sem2(models.Model):
-    USN=models.CharField(max_length=10)
-    #cycle=models.CharField(max_length=50)
-    courseName=models.TextField()
-    courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
-    registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )
-
-class Sem3(models.Model):
-    USN=models.CharField(max_length=10)
-    #cycle=models.CharField(max_length=50)
-    courseName=models.TextField()
-    courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
-    registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )
-
-class Sem4(models.Model):
-    USN=models.CharField(max_length=10)
-    #cycle=models.CharField(max_length=50)
-    courseName=models.TextField()
-    courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
-    registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )
-    
-class Sem5(models.Model):
-    USN=models.CharField(max_length=10)
-    #cycle=models.CharField(max_length=50)
-    courseName=models.TextField()
-    courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
-    registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )
-    
-class Sem6(models.Model):
-    USN=models.CharField(max_length=10)
-    #cycle=models.CharField(max_length=50)
-    courseName=models.TextField()
-    courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
-    registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )
-    
-class Sem7(models.Model):
-    USN=models.CharField(max_length=10)
-    #cycle=models.CharField(max_length=50)
-    courseName=models.TextField()
-    courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
-    registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )
-    
-class Sem8(models.Model):
-    USN=models.CharField(max_length=10)
-    #cycle=models.CharField(max_length=50)
-    courseName=models.TextField()
-    courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
-    registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )
-    
-class FastTrack(models.Model):
-    USN=models.CharField(max_length=10)
-    #cycle=models.CharField(max_length=50)
-    courseName=models.TextField()
-    courseCode=models.TextField() #can be changed to charfield
-    credit=models.DecimalField(max_digits=3, decimal_places=2)
-    registration=models.TextField() #regular or re registered
-    attemptNumber=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    attendance=models.DecimalField(max_digits=5, blank=True, decimal_places=2)
-    CIE=models.DecimalField(max_digits=2, blank=True, decimal_places=2)
-    SEE=models.CharField(max_length=1)
-    GradePoints=models.DecimalField(max_digits=2, decimal_places=2, )

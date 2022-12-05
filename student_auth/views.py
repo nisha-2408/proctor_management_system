@@ -94,7 +94,8 @@ def student_signin(request):
     k = 'signin' in c or 'signup' in c
     context={'current_path': k}
     if request.user.is_authenticated and not request.user.is_teacher :
-        return redirect('dashboard')
+        student=Student.objects.get(email=request.user.email)
+        return redirect(reverse( 'student:dashboard', pk=student.USN))
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -117,7 +118,7 @@ def student_signin(request):
         # here edit
         student=Student.objects.get(email=email)
         if(student.proctor_id):
-            return redirect(reverse('dashboard'))
+            return redirect( 'student:dashboard', pk=student.USN)
         else:
             #edit the message
             return HttpResponse("You do not have a proctor")

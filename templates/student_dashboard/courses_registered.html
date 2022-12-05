@@ -1,0 +1,41 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+<div class="center" style="padding: 2%;">
+    <table>
+        <tr>
+          <th>Sl.no</th>
+          <th>Course Code</th>
+          <th>Course Name</th>
+          <th>Credits</th>
+        </tr>
+        {% for course in courses %}
+        <tr>
+            <td>1</td>
+            <td>{{course.courseCode}}</td>
+            <td>{{course.courseName}}</td>
+            <td>{{course.credit}}</td>
+        </tr>
+        {% endfor %}
+        
+      </table>
+</div>
+{% endblock content %}
