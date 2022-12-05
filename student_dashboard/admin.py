@@ -5,3 +5,4 @@ from . import models
 admin.site.register(models.Student)
 admin.site.register(models.CGPA)
 admin.site.register(models.Sem)
+admin.site.register(models.courseRequest)
