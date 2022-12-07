@@ -1,42 +1,67 @@
-{% extends '../base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends '../base.html' %} {% load static %} {% block content %}
 <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-    
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-    </style>
-    <a href="{% url 'student:register' %}">Register Courses</a>
-<div class="center" style="padding: 2%;">
-    <table>
-        <tr>
-          <th>Sl.no</th>
-          <th>Course Code</th>
-          <th>Course Name</th>
-          <th>Credits</th>
-        </tr>
-        {% for course in courses %}
-        <tr>
-            <td>1</td>
-            <td>{{course.courseCode}}</td>
-            <td>{{course.courseName}}</td>
-            <td>{{course.credit}}</td>
-        </tr>
-        {% endfor %}
-        
-      </table>
+  .notification {
+    color: white;
+    text-decoration: none;
+    padding: 15px 26px;
+    position: relative;
+    display: inline-block;
+  }
+
+
+  .notification .badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+  }
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+<button class="website notification" style="padding: 1%; margin-left: 45%">
+  <a style="text-decoration: none" href="{% url 'student:register' %}"
+    ><span>Register Courses</span><span class="badge">{{req}}</span
+  ></a>
+</button>
+<div class="center" style="padding: 2%">
+  <div class="center" style="padding: 1%;">
+    <div class="container" style="background-color: #c0daf1; padding: 1%; border: 1px solid #205d92; border-radius: 25px;">
+        <h4 style="color: #205d92; font-family: 'Sono', sans-serif">Courses registered for semester {{sem}}
+        </h4>
+    </div>
+</div>
+  <table>
+    <tr>
+      <th>Sl.no</th>
+      <th>Course Code</th>
+      <th>Course Name</th>
+      <th>Credits</th>
+    </tr>
+    {% for course in courses %}
+    <tr>
+      <td>{{forloop.counter}}</td>
+      <td>{{course.courseCode}}</td>
+      <td>{{course.courseName}}</td>
+      <td>{{course.credit}}</td>
+    </tr>
+    {% endfor %}
+  </table>
 </div>
 {% endblock content %}
