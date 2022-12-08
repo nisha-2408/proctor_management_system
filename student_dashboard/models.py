@@ -8,7 +8,7 @@ class Student(models.Model):
     name = models.CharField(max_length=200)
     email=models.EmailField()
     proctor_id=models.OneToOneField(Faculty, null=True, blank=True, on_delete=models.DO_NOTHING)
-    current_sem=models.DecimalField(max_digits=1, decimal_places=0)
+    current_sem=models.DecimalField(max_digits=1, decimal_places=0, null=True, blank=True)
     #personal details
     class Meta:
         ordering = ['name']

@@ -95,7 +95,7 @@ def student_signin(request):
     context={'current_path': k}
     if request.user.is_authenticated and not request.user.is_teacher :
         student=Student.objects.get(email=request.user.email)
-        return redirect(reverse( 'student:dashboard', pk=student.USN))
+        return redirect('student:dashboard', pk=student.USN)
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')

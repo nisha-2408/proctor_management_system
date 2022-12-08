@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from . import models
 from student_dashboard.models import Student, courseRequest, Sem
@@ -39,7 +39,7 @@ def registerCourses(request):
             semob.save()
             o-=1
         numbers.delete()
-        return HttpResponse('success')
+        return redirect( 'student:dashboard', pk=student.USN)
     while o>0:
         no.append(o)
         o-=1
@@ -47,3 +47,21 @@ def registerCourses(request):
     
     context = {'usn': student.USN, 'number': no, 'count': len(no)}
     return render(request, 'student_dashboard/course_register_form.html', context)
+
+@login_required
+def editCourseDetails(request):
+    student=Student.objects.get(email=request.user.email)
+    courses=Sem.objects.filter(USN=student.USN, sem=student.current_sem)
+    o=courses.count()
+    if request.method=="POST":
+        for course in courses:
+            course.courseCode=request.POST['code%s' %(o)]
+            course.courseName=request.POST['name%s' %(o)]
+            course.credit=request.POST['credits%s' %(o)]
+            course.registration=request.POST['reg%s' %(o)]
+            course.attemptNumber=request.POST['attempt%s' %(o)]
+            course.save()
+            o-=1
+        return redirect( 'student:dashboard', pk=student.USN)
+    context={'courses': courses}
+    return render(request, 'student_dashboard/course_edit_form.html', context)
