@@ -1,0 +1,64 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+{% if count == 0 %}
+<div class="center" style="padding: 10%;">
+    <div class="container" style="background-color: #c0daf1; padding: 5%; border: 1px solid #205d92; border-radius: 25px;">
+        <h4 style="color: #205d92; font-family: 'Sono', sans-serif">No Requests for Now!! In case you think its a mistake, please contact your proctor..
+        </h4>
+    </div>
+</div>
+{% else %}
+<div class="row" >
+    <div class="col" style="display: flex;align-items: center;justify-content: center;">
+        <form method="post" action="{% url 'student:update' %}" >
+            <div style="width: 50%;"><h5>{% include 'authentication/messages.html'%}</h5></div>
+            {% csrf_token %}
+            {% for i in courses %}
+            <div>
+                <h4>{{i.courseName}}</h4> 
+                <div class="position" style="margin-bottom: 2%; width: 100%;">
+                    <label for="exampleInputCode" class="form-label text">Course Code</label><br>
+                    <input class="form-control border" name='code{{forloop.counter}}' value='{{i.courseCode}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course Code"  readonly>
+                </div>
+                <div class="position" style="margin-bottom: 2%; width: 100%;">
+                    <label for="exampleInputCredit" class="form-label text">Credits</label><br>
+                    <input class="form-control border" name='credits{{forloop.counter}}' value='{{i.credit}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Credits" readonly>
+                </div>
+                <div class="position" style="margin-bottom: 2%; width: 100%;">
+                    <label for="exampleInputReg" class="form-label text">Registration(Regular/Re-register):</label><br>
+                    <input class="form-control border" name='reg{{forloop.counter}}' value='{{i.registration}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Registration Type" readonly>
+                </div>
+                <div class="position" style="margin-bottom: 2%; width: 100%;">
+                    <label for="exampleInputAtempt" class="form-label text">Attempt No</label><br>
+                    <input class="form-control border" name='attempt{{forloop.counter}}' value='{{i.attemptNumber}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Attempt Number" readonly>
+                </div>
+                <div class="position" style="margin-bottom: 2%; width: 100%;">
+                    <label for="exampleInputAtempt" class="form-label text">attendence(In %)</label><br>
+                    <input class="form-control border" name='attendance{{forloop.counter}}' value='{{i.attendance}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Attendence Ex:100 not 100%" >
+                </div>
+                <div class="position" style="margin-bottom: 2%; width: 100%;">
+                    <label for="exampleInputAtempt" class="form-label text">CIE</label><br>
+                    <input class="form-control border" name='cie{{forloop.counter}}' value='{{i.CIE}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter CIE Marks" >
+                </div>
+                <div class="position" style="margin-bottom: 2%; width: 100%;">
+                    <label for="exampleInputAtempt" class="form-label text">SEE</label><br>
+                    <input class="form-control border" name='see{{forloop.counter}}' value='{{i.SEE}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter SEE Marks" >
+                </div>
+                <div class="position" style="margin-bottom: 2%; width: 100%;">
+                    <label for="exampleInputAtempt" class="form-label text">Grade Points</label><br>
+                    <input class="form-control border" name='gp{{forloop.counter}}' value='{{i.GradePoints}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Grade Points" >
+                </div>
+            </div>
+            {% endfor %}
+              <div>
+                  <button style="background-color: #1b62bf; border: none; width: 100%; border-radius: 5px; padding: 2%; color: white" type="submit">Submit</button>
+              </div>
+          </form>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}

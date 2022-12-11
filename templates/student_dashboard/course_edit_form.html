@@ -17,29 +17,29 @@
         <iframe src="https://bmsce.ac.in/Syllabus/CS/UG/UG%20Syllabus%202018-22.pdf" width="100%" height="50%" style="border:1px solid black;"></iframe>
     </div>
     <div class="col">
-        <form method="post" action="{% url 'student:register' %}">
+        <form method="post" action="{% url 'student:edit' %}">
             {% csrf_token %}
-            {% for i in number %}
+            {% for i in courses %}
             <h4>Subject {{forloop.counter}}</h4> 
             <div class="position" style="margin-bottom: 1%; width: 80%;">
                   <label for="exampleInputCode" class="form-label text">Course Code</label><br>
-                  <input class="form-control border" name='code{{i}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course Code">
+                  <input class="form-control border" name='code{{forloop.counter}}' value='{{i.courseCode}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course Code">
               </div>
               <div class="position" style="margin-bottom: 1%; width: 80%;">
                 <label for="exampleInputName" class="form-label text">Course Name</label><br>
-                <input class="form-control border" name='name{{i}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course Name">
+                <input class="form-control border" name='name{{forloop.counter}}' value='{{i.courseName}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course Name">
             </div>
             <div class="position" style="margin-bottom: 1%; width: 80%;">
                 <label for="exampleInputCredit" class="form-label text">Credits</label><br>
-                <input class="form-control border" name='credits{{i}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Credits">
+                <input class="form-control border" name='credits{{forloop.counter}}' value='{{i.credit}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Credits">
             </div>
             <div class="position" style="margin-bottom: 1%; width: 80%;">
                 <label for="exampleInputReg" class="form-label text">Registration(Regular/Re-register):</label><br>
-                <input class="form-control border" name='reg{{i}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Registration Type">
+                <input class="form-control border" name='reg{{forloop.counter}}' value='{{i.registration}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Registration Type">
             </div>
             <div class="position" style="margin-bottom: 1%; width: 80%;">
                 <label for="exampleInputAtempt" class="form-label text">Attempt No</label><br>
-                <input class="form-control border" name='attempt{{i}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Attempt Number">
+                <input class="form-control border" name='attempt{{forloop.counter}}' value='{{i.attemptNumber}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Attempt Number">
             </div>
             {% endfor %}
               <div>
