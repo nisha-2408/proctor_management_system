@@ -15,8 +15,20 @@ def dashboard(request, pk):
         return HttpResponse("Not allowd")
     courses = models.Sem.objects.filter(USN=pk, sem=sem)
     print(courses)
-    context = {'courses': courses, 'req': number.count(), 'sem': sem, 'var': 0}
+    context = {'courses': courses, 'req': number.count(), 'sem': sem, 'usn': pk}
     return render(request, 'student_dashboard/courses_registered.html', context)
+
+@login_required
+def dashboard_marks(request, pk):
+    student=Student.objects.get(email=request.user.email)
+    number=courseRequest.objects.filter(student_usn=student.USN)
+    sem=student.current_sem
+    if(pk!=student.USN):
+        return HttpResponse("Not allowd")
+    courses = models.Sem.objects.filter(USN=pk, sem=sem)
+    print(courses)
+    context = {'courses': courses, 'req': number.count(), 'sem': sem,}
+    return render(request, 'student_dashboard/course_marks.html', context)
 
 @login_required
 def registerCourses(request):

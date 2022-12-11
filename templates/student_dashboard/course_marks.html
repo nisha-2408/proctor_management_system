@@ -35,18 +35,9 @@
     background-color: #dddddd;
   }
 </style>
-<button class="website notification" style="padding: 1%; margin-left: 45%">
-  <a style="text-decoration: none" href="{% url 'student:register' %}"
-    ><span>Register Courses</span><span class="badge">{{req}}</span
-  ></a>
-</button>
-<button class="website notification" style="padding: 1%; margin-left: 15%">
-  <a style="text-decoration: none" href="{% url 'student:edit'  %}"
-    ><span>Edit</span></a>
-</button>
-<button class="website notification" style="padding: 1%; margin-left: ">
-  <a style="text-decoration: none" href="{% url 'student:marks' usn  %}"
-    ><span>View your marks</span></a>
+<button class="website notification" style="padding: 1%; margin-left: 50%">
+  <a style="text-decoration: none" href="{% url 'student:update'  %}"
+    ><span>Update</span></a>
 </button>
 <div class="center" style="padding: 2%">
   <div class="center" style="padding: 1%;">
@@ -58,20 +49,26 @@
   <table>
     <tr>
       <th>Sl.no</th>
-      <th>Course Code</th>
       <th>Course Name</th>
       <th>Credits</th>
       <th>Registration</th>
       <th>Attempt No</th>
+      <th>Attendence</th>
+      <th>CIE</th>
+      <th>SEE</th>
+      <th>Grade Points</th>
     </tr>
     {% for course in courses %}
     <tr>
       <td>{{forloop.counter}}</td>
-      <td>{{course.courseCode}}</td>
       <td>{{course.courseName}}</td>
       <td>{{course.credit}}</td>
       <td>{{course.registration}}</td>
       <td>{{course.attemptNumber}}</td>
+      <td>{{course.attendance}}</td>
+      <td>{{course.CIE}}</td>
+      <td>{{course.SEE}}</td>
+      <td>{{course.GradePoints}}</td>
     </tr>
     {% endfor %}
   </table>
