@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col info_img">
+        <img src="{% static 'login.png' %}"></img>
+    </div>
+    <div class="col padding wrap">
+        <h3 class="caption">Student SignIn</h3>
+        <p class="subcaption">login to Proctor Management Portal</p>
+        <div style="width: 50%;"><h5>{% include 'authentication/messages.html'%}</h5></div>
+        <form method="post" action={% url 'student_signin' %}>
+            {% csrf_token %}  
+            <div class="position" style="margin-bottom: 3%; width: 50%;">
+                  <label for="exampleInputEmail1" class="form-label text">Email address</label><br>
+                  <input class="form-control border" name='email' type="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter BMSCE Mail">
+              </div>
+              <div class="position" style="margin-bottom: 3%; width: 50%;">
+                  <label for="exampleInputPassword1" class="form-label text">Password <p style="margin-left: 150px; float: right;" class="small"><a class="text-primary" href={% url 'forgotPassword' %}>Forgot password?</a></p></label> <br>
+                  <input class="form-control border" name='password' type="password" id="exampleInputPassword1" placeholder="Enter your password">
+              </div>
+              <p style="display: none;" class="small"><a class="text-primary" href={% url 'forgotPassword' %}>Forgot password?</a></p>
+              <div>
+                  <button style="background-color: #1b62bf; border: none; width: 50%; border-radius: 5px; padding: 1%; color: white" type="submit">Login</button>
+              </div>
+          </form>
+          <div style="font-family: 'Sans', sans-serif; font-weight: bold; margin-top: 5%;">
+              <p>Don't have an account? <a href={% url 'student_signup'  %}>Sign Up</a></p>
+          </div>
+    </div>
+</div>
+{% endblock content %}

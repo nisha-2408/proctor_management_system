@@ -1,0 +1,52 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+{% if count == 0 %}
+<div class="center" style="padding: 10%;">
+    <div class="container" style="background-color: #c0daf1; padding: 5%; border: 1px solid #205d92; border-radius: 25px;">
+        <h4 style="color: #205d92; font-family: 'Sono', sans-serif">No Requests for Now!! In case you think its a mistake, please contact your proctor..
+        </h4>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col">
+        <iframe src="https://bmsce.ac.in/Syllabus/CS/UG/UG%20Syllabus%202018-22.pdf" width="100%" height="50%" style="border:1px solid black;"></iframe>
+    </div>
+    <div class="col">
+        <form method="post" action="{% url 'student:register' %}">
+            {% csrf_token %}
+            {% for i in number %}
+            <h4>Subject {{forloop.counter}}</h4> 
+            <div class="position" style="margin-bottom: 1%; width: 80%;">
+                  <label for="exampleInputCode" class="form-label text">Course Code</label><br>
+                  <input class="form-control border" name='code{{i}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course Code">
+              </div>
+              <div class="position" style="margin-bottom: 1%; width: 80%;">
+                <label for="exampleInputName" class="form-label text">Course Name</label><br>
+                <input class="form-control border" name='name{{i}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course Name">
+            </div>
+            <div class="position" style="margin-bottom: 1%; width: 80%;">
+                <label for="exampleInputCredit" class="form-label text">Credits</label><br>
+                <input class="form-control border" name='credits{{i}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Credits">
+            </div>
+            <div class="position" style="margin-bottom: 1%; width: 80%;">
+                <label for="exampleInputReg" class="form-label text">Registration(Regular/Re-register):</label><br>
+                <input class="form-control border" name='reg{{i}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Registration Type">
+            </div>
+            <div class="position" style="margin-bottom: 1%; width: 80%;">
+                <label for="exampleInputAtempt" class="form-label text">Attempt No</label><br>
+                <input class="form-control border" name='attempt{{i}}' type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Attempt Number">
+            </div>
+            {% endfor %}
+              <div>
+                  <button style="background-color: #1b62bf; border: none; width: 80%; border-radius: 5px; padding: 1%; color: white" type="submit">Submit</button>
+              </div>
+          </form>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}

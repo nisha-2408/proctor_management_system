@@ -1,0 +1,31 @@
+{% load static %}
+<div class="row" style="padding: 1%;">
+    <div class="col-1"></div>
+    <div class="col-5 bmsce-logo">
+        <img src="{% static 'bmsce-logo.jpg' %}"></img>
+    </div>
+    <div class="col-5">
+        <ul class="nav justify-content-end ">
+            <li class="nav-item website">
+              <a class="nav-link" href="https://bmsce.ac.in/" target="_blank">Website</a>
+            </li>
+            <li class="nav-item campus-portal">
+              <a class="nav-link" href="https://webcampus.bmsce.in/" target="_blank">Campus Portal</a>
+            </li>
+            {% if user.is_authenticated and not current_path %}
+            <li class="nav-item campus-portal" style="margin-left: 2%;">
+              <a class="nav-link" href="{% url 'signout' %}">Log Out</a>
+            </li>
+            {% endif %}
+            <li class="nav-item dropdown visible">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><i class="fas fa-ellipsis-h-alt" style="color: black;"></i></a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="https://bmsce.ac.in/" target="_blank">Website</a></li>
+                  <li><a class="dropdown-item" href="https://webcampus.bmsce.in/" target="_blank">Campus Portal</a></li>
+                </ul>
+              </li>
+          </ul>
+    </div>
+    <div class="col-1"></div>
+</div>
+<hr>

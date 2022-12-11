@@ -1,0 +1,127 @@
+.campus-portal{
+    border: 1px solid #BF0404;
+    border-radius: 10px;
+}
+.subcaption{
+    color: rgb(137, 135, 135);
+}
+.text{
+    font-family: 'Sono', sans-serif;
+}
+.positon{
+    margin-bottom: 5%;
+}
+body{
+    overflow-x: hidden;
+}
+.padding{
+    padding: 3%;
+}
+.campus-portal:hover{
+    background-color: #BF0404;
+}
+.campus-portal a{
+    color: #BF0404;
+}
+.campus-portal a:hover{
+    color: white;
+}
+.website{
+    color: #1B62BF;
+    border: 1px solid #1B62BF;
+    margin-right: 3%;
+    border-radius: 10px;
+}
+.website:hover{
+    background-color: #1B62BF;
+    color: white;
+}
+.student{
+    color: #1B62BF;
+    border: 1px solid #1B62BF;
+    margin-right: 3%;
+    border-radius: 10px;
+}
+.caption {
+    font-family: 'Sono', sans-serif;
+    font-weight: bolder;
+}
+.student:hover{
+    background-color: #1B62BF;
+    color: white;
+}
+.list-style{
+    margin-top: 7%;
+    width: 60% !important;
+}
+.list-style ul{
+    list-style-type: none;
+}
+.list-style li{
+    padding: 2%;
+}
+.website a{
+    color: #1B62BF;
+}
+.website a:hover{
+    color: white;
+}
+.student a{
+    text-decoration: none;
+    color: #1B62BF;
+}
+.student a:hover{
+    text-decoration: none;
+    color: white;
+}
+.bmsce-logo img{
+    width: 60% !important;
+    height: auto !important;
+}
+.visible{
+    display: none;
+}
+.faculty{
+    margin-top: 3%;
+    border: 1px solid #2db300;
+    margin-right: 3%;
+    border-radius: 10px;
+}
+.faculty a{
+    text-decoration: none;
+    color: #2db300;
+}
+.faculty a:hover{
+    text-decoration: none;
+    color: white;
+}
+.faculty:hover{
+    background-color: #2db300;
+}
+.info_img img{
+    width: 90% !important;
+    height: auto !important;
+}
+@media screen and (max-width: 920px) {
+    .bmsce-logo img{
+        width: 175% !important;
+        height: auto !important;
+    }
+    .website, .campus-portal{
+        display: none;
+    }
+    .visible{
+        display: block;
+    }
+    .info_img{
+        display: none;
+    }
+    .wrap{
+        width: 100% !important;
+        padding: 0 !important;
+        margin-left: 0%;
+    }
+    .list-style{
+        width: 90% !important;
+    }
+}
