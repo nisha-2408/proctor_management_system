@@ -7,7 +7,7 @@ class Student(models.Model):
     USN= models.CharField(max_length=10)
     name = models.CharField(max_length=200)
     email=models.EmailField()
-    proctor_id=models.OneToOneField(Faculty, null=True, blank=True, on_delete=models.DO_NOTHING)
+    proctor_id=models.ForeignKey(Faculty, null=True, blank=True, on_delete=models.DO_NOTHING)
     current_sem=models.DecimalField(max_digits=1, decimal_places=0, null=True, blank=True)
     #personal details
     class Meta:
@@ -39,11 +39,12 @@ class Sem(models.Model):
     courseCode=models.TextField() #can be changed to charfield
     credit=models.TextField()
     registration=models.TextField() #regular or re registered
-    attemptNumber=models.TextField(blank=True, null=True)
-    attendance=models.TextField(blank=True, null=True)
-    CIE=models.TextField(blank=True, null=True)
-    SEE=models.CharField(max_length=1, blank=True, null=True)
-    GradePoints=models.TextField(blank=True, null=True)
+    attemptNumber=models.FloatField(blank=True, null=True)
+    attendance=models.FloatField(blank=True, null=True)
+    CIE=models.FloatField(blank=True, null=True)
+    SEE=models.FloatField(max_length=1, blank=True, null=True)
+    GradePoints=models.FloatField(blank=True, null=True)
+    # is_approved=models.BooleanField(default=False)
     #courses to be cleared if any
     #proctor remarks
     

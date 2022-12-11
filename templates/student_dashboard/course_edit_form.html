@@ -35,7 +35,16 @@
             </div>
             <div class="position" style="margin-bottom: 1%; width: 80%;">
                 <label for="exampleInputReg" class="form-label text">Registration(Regular/Re-register):</label><br>
+<<<<<<< HEAD
                 <input class="form-control border" name='reg{{forloop.counter}}' value='{{i.registration}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Registration Type">
+=======
+                <select name="reg{{forloop.counter}}" value='{{i.registration}}' class="form-control" required="required">
+                    <option value="">Select</option>
+                    <option value="regular">Regular</option>
+                    <option value="re-register">Re-Register</option>
+                </select>
+                {% comment %} <input class="form-control border" name='reg{{forloop.counter}}' value='{{i.registration}}' type="text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Registration Type"> {% endcomment %}
+>>>>>>> master
             </div>
             <div class="position" style="margin-bottom: 1%; width: 80%;">
                 <label for="exampleInputAtempt" class="form-label text">Attempt No</label><br>

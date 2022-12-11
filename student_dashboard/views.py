@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from . import models
 from student_dashboard.models import Student, courseRequest, Sem
 
@@ -13,8 +15,20 @@ def dashboard(request, pk):
         return HttpResponse("Not allowd")
     courses = models.Sem.objects.filter(USN=pk, sem=sem)
     print(courses)
-    context = {'courses': courses, 'req': number.count(), 'sem': sem, 'var': 0}
+    context = {'courses': courses, 'req': number.count(), 'sem': sem, 'usn': pk}
     return render(request, 'student_dashboard/courses_registered.html', context)
+
+@login_required
+def dashboard_marks(request, pk):
+    student=Student.objects.get(email=request.user.email)
+    number=courseRequest.objects.filter(student_usn=student.USN)
+    sem=student.current_sem
+    if(pk!=student.USN):
+        return HttpResponse("Not allowd")
+    courses = models.Sem.objects.filter(USN=pk, sem=sem)
+    print(courses)
+    context = {'courses': courses, 'req': number.count(), 'sem': sem,}
+    return render(request, 'student_dashboard/course_marks.html', context)
 
 @login_required
 def registerCourses(request):
@@ -65,3 +79,28 @@ def editCourseDetails(request):
         return redirect( 'student:dashboard', pk=student.USN)
     context={'courses': courses}
     return render(request, 'student_dashboard/course_edit_form.html', context)
+
+@login_required
+def updateCourseDetails(request):
+    student=Student.objects.get(email=request.user.email)
+    courses=Sem.objects.filter(USN=student.USN, sem=student.current_sem)
+    o=courses.count()
+    if request.method=="POST":
+        for course in courses:
+            attendence=float(request.POST['attendance%s' %(o)])
+            cie=float(request.POST['cie%s' %(o)])
+            see=float(request.POST['see%s' %(o)])
+            gradepoints=float(request.POST['gp%s' %(o)])
+            if attendence>100 or attendence<0 or cie>50 or cie<0 or see>100 or see<0 or gradepoints<0 or gradepoints>10:
+                messages.add_message(request, messages.ERROR,'Enter proper details!')
+                return redirect(reverse('student:update'))
+            course.attendance=attendence
+            course.CIE=cie
+            course.SEE=see
+            course.GradePoints=gradepoints
+            course.save()
+            o-=1
+        return redirect( 'student:dashboard', pk=student.USN)
+    context={'courses': courses}
+    return render(request, 'student_dashboard/course_update_form.html', context)
+
