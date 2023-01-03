@@ -203,6 +203,10 @@
                 <a style="text-decoration: none" href="{% url 'student:register' %}">
                     <span>Register Courses</span><span class="badge">{{req}}</span></a>
                 </button>
+                <button class="website notification" style="padding: 1%;">
+                    <a style="text-decoration: none" href="{% url 'student:edit'  %}"
+                      ><span>Edit Courses</span></a>
+                  </button>
                 <button class="website notification" style="padding: 1%">
                     <a style="text-decoration: none" href="{% url 'student:student_details_form' %}"
                       ><span>Add/Edit Student Details</span></a>
