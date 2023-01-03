@@ -13,6 +13,7 @@
 </div>
 {% else %}
 <div class="row" >
+    
     <div class="col" style="display: flex;align-items: center;justify-content: center;">
         <form method="post" action="{% url 'student:update' %}" >
             <div style="width: 50%;"><h5>{% include 'authentication/messages.html'%}</h5></div>
