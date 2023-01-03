@@ -7,7 +7,7 @@ class Student(models.Model):
     USN= models.CharField(max_length=10)
     name = models.CharField(max_length=200)
     email=models.EmailField()
-    proctor_id=models.ForeignKey(Faculty, null=True, blank=True, on_delete=models.DO_NOTHING)
+    proctor_id=models.OneToOneField(Faculty, null=True, blank=True, on_delete=models.DO_NOTHING)
     current_sem=models.DecimalField(max_digits=1, decimal_places=0, null=True, blank=True)
     #personal details
     class Meta:
@@ -15,6 +15,48 @@ class Student(models.Model):
         
     def __str__(self):
         return self.USN
+
+class StudentDetail(models.Model):
+    USN=models.CharField(max_length=10)
+    date_of_birth=models.DateField()
+    permanent_address=models.TextField()
+    current_address=models.TextField()
+    phone_number=models.CharField(max_length=10)
+    blood_group=models.CharField(max_length=3)
+
+    father_name=models.CharField(max_length=200)
+    mother_name=models.CharField(max_length=200)
+    father_occupation=models.CharField(max_length=200, null=True, blank=True)
+    mother_occupation=models.CharField(max_length=200, null=True, blank=True)
+    father_phone_number=models.CharField(max_length=10)
+    mother_phone_number=models.CharField(max_length=10)
+    father_email=models.EmailField()
+    mother_email=models.EmailField()
+
+    guardian_name=models.CharField(max_length=200)
+    guardian_phone_number=models.CharField(max_length=10)
+    guardian_email=models.EmailField()
+
+    class_10th_school=models.CharField(max_length=200)
+    class_10th_board=models.CharField(max_length=200)
+    class_10th_percentage=models.DecimalField(max_digits=5, decimal_places=2)
+    class_10th_year=models.DecimalField(max_digits=4, decimal_places=0)
+
+    class_12th_school=models.CharField(max_length=200)
+    class_12th_board=models.CharField(max_length=200)
+    class_12th_percentage=models.DecimalField(max_digits=5, decimal_places=2)
+    class_12th_year=models.DecimalField(max_digits=4, decimal_places=0)
+
+    class_Diploma_school=models.CharField(max_length=200, null=True, blank=True)
+    class_Diploma_board=models.CharField(max_length=200, null=True, blank=True)
+    class_Diploma_percentage=models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    class_Diploma_year=models.DecimalField(max_digits=4, decimal_places=0, null=True, blank=True)
+
+    # class Meta:
+    #     ordering = ['USN']
+    def __str__(self):
+        return self.USN
+    
 
 class CGPA(models.Model):
     USN=models.CharField(max_length=10)
