@@ -11,7 +11,7 @@
         <div class="container" style="background-color: #c0daf1; padding: 5%; border: 1px solid #205d92; border-radius: 25px;">
             <h4 style="color: #205d92; font-family: 'Sono', sans-serif">Details Submitted Successfully!!</h4>
             <button class="website notification" style="padding: 1%">
-                <a style="text-decoration: none" href="{% url 'student:dashboard' %}?str={{ pk }}">
+                <a style="text-decoration: none" href="{% url 'student:dashboard' usn %}">
                   ><span>Go to Dashboard</span></a>
             </button>
         </div>
@@ -19,12 +19,12 @@
     <div class="row">
         <div class="col">
             <form method="post" action="">{% csrf_token %}
-                <div class="position">
+                <div class="position" style="margin-left: 5%;">
                     {{form.as_p}}
                 </div>
 
                 <div>
-                    <button style="background-color: #1b62bf; border: none; width: 80%; border-radius: 5px; padding: 1%; color: white" type="submit">Submit</button>
+                    <button style="background-color: #1b62bf; border: none; width: 80%; border-radius: 5px; padding: 1%; margin-left: 5%; color: white" type="submit">Submit</button>
                 </div>
             </form>
         </div>

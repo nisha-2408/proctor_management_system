@@ -9,7 +9,10 @@ from .forms import StudentDetailsForm
 @login_required
 def dashboard(request, pk):
     student=Student.objects.get(email=request.user.email)
-    s_info = StudentDetail.objects.get(USN=student.USN)
+    if(StudentDetail.objects.filter(USN=student.USN).exists()):
+        s_info = StudentDetail.objects.get(USN=student.USN)
+    else:
+        s_info = 0
     number=courseRequest.objects.filter(student_usn=student.USN)
     sem=student.current_sem
     if(pk!=student.USN):
@@ -77,7 +80,10 @@ def registerCourses(request):
 @login_required
 def studentDetails(request):
     student=Student.objects.get(email=request.user.email)
-    s_info = StudentDetail.objects.get(USN=student.USN)
+    if(StudentDetail.objects.filter(USN=student.USN).exists()):
+        s_info = StudentDetail.objects.get(USN=student.USN)
+    else:
+        s_info = 0
     print(s_info)
     submitted = False
     if request.method == 'POST':
@@ -85,12 +91,22 @@ def studentDetails(request):
         if form.is_valid():
             form.instance.user = student
             form.save()
+            obj=form.cleaned_data
+            studeob=StudentDetail(USN=obj['USN'], father_name=obj['father_name'], mother_name=obj['mother_name'], date_of_birth=obj['date_of_birth'], permanent_address=obj['permanent_address'], current_address=obj['current_address'], phone_number=obj['phone_number'],
+                                  blood_group=obj['blood_group'], father_occupation=obj['father_occupation'], mother_occupation=obj['mother_occupation'], father_phone_number=obj['father_phone_number'], mother_phone_number=obj['mother_phone_number'], 
+                                  father_email=obj['father_email'], mother_email=obj['mother_email'], guardian_name=obj['guardian_name'], guardian_email=obj['guardian_email'], guardian_phone_number=obj['guardian_phone_number'],
+                                  class_10th_school=obj['class_10th_school'], class_10th_percentage=obj['class_10th_percentage'], class_10th_board=obj['class_10th_board'], class_10th_year=obj['class_10th_year'], 
+                                  class_12th_school=obj['class_12th_school'], class_12th_percentage=obj['class_12th_percentage'], class_12th_board=obj['class_12th_board'], class_12th_year=obj['class_12th_year'], 
+                                  class_Diploma_school=obj['class_Diploma_school'], class_Diploma_percentage=obj['class_Diploma_percentage'], class_Diploma_board=obj['class_Diploma_board'], class_Diploma_year=obj['class_Diploma_year'], 
+                                  )
+            print(form.cleaned_data)
+            studeob.save()
             return HttpResponseRedirect('/student/add_student_details/?submitted=True')
     else:
         form = StudentDetailsForm(instance=student)
         if 'submitted' in request.GET:
             submitted = True
-    return render(request, 'student_dashboard/student_details_form.html', {'form':form, 'submitted':submitted, 's_info':s_info})
+    return render(request, 'student_dashboard/student_details_form.html', {'form':form, 'submitted':submitted, 's_info':s_info, 'usn': student.USN})
 
 
 @login_required
@@ -124,7 +140,7 @@ def updateCourseDetails(request):
             gradepoints=float(request.POST['gp%s' %(o)])
             if attendence>100 or attendence<0 or cie>50 or cie<0 or see>100 or see<0 or gradepoints<0 or gradepoints>10:
                 messages.add_message(request, messages.ERROR,'Enter proper details!')
-                return redirect(reverse('student:update'))
+                return redirect('student:update')
             course.attendance=attendence
             course.CIE=cie
             course.SEE=see
