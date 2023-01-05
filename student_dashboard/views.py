@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirec
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from . import models
-from student_dashboard.models import Student, courseRequest, Sem, StudentDetail
+from student_dashboard.models import Student, courseRequest, Sem, StudentDetail, Fastrack
 from .forms import StudentDetailsForm
 
 # Create your views here.
@@ -18,20 +18,11 @@ def dashboard(request, pk):
     if(pk!=student.USN):
         return HttpResponse("Not allowd")
     courses = models.Sem.objects.filter(USN=pk, sem=sem)
-    context = {'courses': courses, 'req': number.count(), 'sem': sem, 's_info': s_info, 'student': student, 'usn': student.USN}
+    fastrack = models.Fastrack.objects.filter(USN=pk, is_active=True)
+    length = fastrack.count()
+    context = {'courses': courses, 'req': number.count(), 'sem': sem, 's_info': s_info, 'student': student, 'usn': student.USN, 'fast_count': length, 'fasttrack': fastrack}
     return render(request, 'student_dashboard/dashboard.html', context)
 
-@login_required
-def dashboard_marks(request, pk):
-    student=Student.objects.get(email=request.user.email)
-    number=courseRequest.objects.filter(student_usn=student.USN)
-    sem=student.current_sem
-    if(pk!=student.USN):
-        return HttpResponse("Not allowd")
-    courses = models.Sem.objects.filter(USN=pk, sem=sem)
-    print(courses)
-    context = {'courses': courses, 'req': number.count(), 'sem': sem,}
-    return render(request, 'student_dashboard/course_marks.html', context)
 
 @login_required
 def dashboard_marks(request, pk):
@@ -99,11 +90,11 @@ def studentDetails(request):
                                   class_12th_school=obj['class_12th_school'], class_12th_percentage=obj['class_12th_percentage'], class_12th_board=obj['class_12th_board'], class_12th_year=obj['class_12th_year'], 
                                   class_Diploma_school=obj['class_Diploma_school'], class_Diploma_percentage=obj['class_Diploma_percentage'], class_Diploma_board=obj['class_Diploma_board'], class_Diploma_year=obj['class_Diploma_year'], 
                                   )
-            print(form.cleaned_data)
+            #print(form.cleaned_data)
             studeob.save()
             return HttpResponseRedirect('/student/add_student_details/?submitted=True')
     else:
-        form = StudentDetailsForm(instance=student)
+        form = StudentDetailsForm(instance=s_info)
         if 'submitted' in request.GET:
             submitted = True
     return render(request, 'student_dashboard/student_details_form.html', {'form':form, 'submitted':submitted, 's_info':s_info, 'usn': student.USN})
