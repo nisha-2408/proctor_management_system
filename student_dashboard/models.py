@@ -86,7 +86,8 @@ class Sem(models.Model):
     CIE=models.FloatField(blank=True, null=True)
     SEE=models.FloatField(max_length=1, blank=True, null=True)
     GradePoints=models.FloatField(blank=True, null=True)
-    # is_approved=models.BooleanField(default=False)
+    is_approved=models.BooleanField(default=False)
+    is_marks_approved = models.BooleanField(default=False)
     # is_active = models.BooleanField(default=True)
     #courses to be cleared if any
     #proctor remarks

@@ -203,7 +203,7 @@ def faculty_signin(request):
     k = 'signin' in c or 'signup' in c
     context={'current_path': k}
     if request.user.is_authenticated and request.user.is_teacher :
-        return redirect('dashboard')
+        return redirect('faculty:dashboard')
         
     if request.method == "POST":
         email = request.POST.get('email')
@@ -226,7 +226,7 @@ def faculty_signin(request):
         #messages.add_message(request, messages.SUCCESS,'Welcome {}'.format(user.name))
         login(request,user)
         # here edit
-        return redirect(reverse('dashboard'))
+        return redirect('faculty:dashboard')
     return render(request, 'faculty_signin.html', context)
 
 def faculty_signup(request):
