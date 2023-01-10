@@ -219,16 +219,18 @@
                   <th scope="col">Sem</th>
                 </tr>
               </thead>
-              <tbody>
-                {% for student in students %}
-                <tr>
-                  <td>{{forloop.counter}}</td>
-                  <td>{{student.USN}}</td>
-                  <td>{{student.name}}</td>
-                  <td>{{student.current_sem}}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
+              
+                <tbody>
+                  {% for student in students %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><a href="{% url 'faculty:student-details' student.USN %}" style="cursor: pointer; text-decoration: none;">{{student.USN}}</a></td>
+                    <td>{{student.name}}</td>
+                    <td>{{student.current_sem}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              
             </table>
           </div>
     </main>

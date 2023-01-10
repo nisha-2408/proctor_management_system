@@ -51,6 +51,7 @@ class StudentDetail(models.Model):
     class_Diploma_board=models.CharField(max_length=200, null=True, blank=True)
     class_Diploma_percentage=models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     class_Diploma_year=models.DecimalField(max_digits=4, decimal_places=0, null=True, blank=True)
+    isApproved=models.BooleanField(default=False)
 
     # class Meta:
     #     ordering = ['USN']
@@ -88,6 +89,7 @@ class Sem(models.Model):
     GradePoints=models.FloatField(blank=True, null=True)
     is_approved=models.BooleanField(default=False)
     is_marks_approved = models.BooleanField(default=False)
+    
     # is_active = models.BooleanField(default=True)
     #courses to be cleared if any
     #proctor remarks
@@ -105,7 +107,7 @@ class Fastrack(models.Model):
     CIE=models.FloatField(blank=True, null=True)
     SEE=models.FloatField(max_length=1, blank=True, null=True)
     GradePoints=models.FloatField(blank=True, null=True)
-    # is_approved=models.BooleanField(default=False)
+    is_approved=models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     #courses to be cleared if any
     #proctor remarks
