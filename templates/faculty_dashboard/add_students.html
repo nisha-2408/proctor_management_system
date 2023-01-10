@@ -1,0 +1,15 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block content %}
+<form method="post" style="margin-left: 20%;" action="{% url 'faculty:add-students' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="position" style="margin-bottom: 1%; width: 80%;">
+        <input class="form-control border" name='excel' type="file" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <br />
+        <div>
+            <button style="background-color: #1b62bf; border: none; width: 100%; border-radius: 5px; padding: 1%; color: white" type="submit">Upload</button>
+        </div>
+    </div>
+</form>
+{% endblock content %}

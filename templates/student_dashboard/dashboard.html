@@ -354,6 +354,7 @@
               <th scope="col">Course Name</th>
               <th scope="col">Credits</th>
               <th scope="col">Registration Type</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -364,6 +365,19 @@
               <td>{{course.courseName}}</td>
               <td>{{course.credit}}</td>
               <td>{{course.registration}}</td>
+              <td>
+                {% if course.is_approved %}
+                <button style="padding: 2%; margin-left: 10%; color: white; border: none; background-color: #00e600; border-radius: 10px;">
+                <span>Approved</span>
+                </button>
+                {% else %}
+                <div style="padding: 2%;">
+                  <button style="padding: 2%; margin-left: 10%; color: white; border: none; background-color: #BF0404; border-radius: 10px;">
+                    <span><h6>Waiting for Approval</h6></span>
+                    </button>
+                </div>
+                {% endif %}
+              </td>
             </tr>
             {% endfor %}
           </tbody>

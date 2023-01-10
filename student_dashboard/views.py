@@ -94,7 +94,10 @@ def studentDetails(request):
             studeob.save()
             return HttpResponseRedirect('/student/add_student_details/?submitted=True')
     else:
-        form = StudentDetailsForm(instance=s_info)
+        if s_info != 0 :
+            form = StudentDetailsForm(instance=s_info)
+        else :
+            form = StudentDetailsForm()
         if 'submitted' in request.GET:
             submitted = True
     return render(request, 'student_dashboard/student_details_form.html', {'form':form, 'submitted':submitted, 's_info':s_info, 'usn': student.USN})
