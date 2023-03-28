@@ -232,7 +232,11 @@
                     <td>{{forloop.counter}}</td>
                     <td><a href="{% url 'faculty:student-details' student.USN %}" style="cursor: pointer; text-decoration: none;">{{student.USN}}</a></td>
                     <td>{{student.name}}</td>
-                    <td>{{student.current_sem}}</td>
+                    <td>{% if student.current_sem != None %}
+                      {{student.current_sem}}
+                      {% else %}
+                      No sem added!
+                      {% endif %}</td>
                   </tr>
                   {% endfor %}
                 </tbody>

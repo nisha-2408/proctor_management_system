@@ -37,10 +37,15 @@ def studentDetails(request, pk):
         sendFillMail(request, message, 'Sudeep' ,student.email)
         return redirect('faculty:dashboard')
     courses = Sem.objects.filter(sem=student.current_sem, USN=pk)
-    marks = courses[0].CIE == None
+    if courses.exists():
+        cour = True
+        marks = courses[0].CIE == None
+    else:
+        cour = False
+        marks = False
     fastrack = Fastrack.objects.filter(USN=pk, is_active=True)
     length = fastrack.count()
-    context = {'s_info': s_info, 'courses': courses, 'fasttrack': fastrack, 'fast_count': length, 'email': student.email, 'usn': student.USN, 'marks': marks}
+    context = {'s_info': s_info, 'courses': courses, 'fasttrack': fastrack, 'fast_count': length, 'email': student.email, 'usn': student.USN, 'marks': marks, 'cour': cour}
     return render(request, 'faculty_dashboard/student_details.html', context)
 
 def approve(request, pk):
@@ -103,5 +108,5 @@ def addStudents(request):
                 student = Student.objects.get(USN=usn)
                 student.proctor_id = faculty
                 student.save()
-        return HttpResponse("Hola")
+        return redirect('faculty:dashboard')
     return render(request, 'faculty_dashboard/add_students.html')

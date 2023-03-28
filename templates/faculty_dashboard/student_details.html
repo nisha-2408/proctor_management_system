@@ -22,7 +22,7 @@
     <div class="btn-group">
       <span><h4>Personal</h4></span>
       {% if not s_info.isApproved %}
-      <button style="padding: 5%; margin-left: 10%; color: white; border: none; background-color: #00e600; border-radius: 10px;">
+      <button style="padding: 5%; margin-left: 10%; color: white; border: none; background-color: #009933; border-radius: 10px;">
         <a
           style="text-decoration: none; color: white;"
           href="{% url 'faculty:student-details-approve' s_info.USN %}"
@@ -151,7 +151,7 @@
           <td>{{course.registration}}</td>
           {% if not course.is_approved %}
           <td>
-            <button style="padding: 5%; margin-left: 10%; color: white; border: none; background-color: #00e600; border-radius: 10px;">
+            <button style="padding: 5%; margin-left: 10%; color: white; border: none; background-color: #009933; border-radius: 10px;">
                 <a
                 style="text-decoration: none; color: white;"
                 href="{% url 'faculty:student-course-approve' s_info.USN course.courseCode %}"
@@ -211,6 +211,7 @@
 
     {% endif %}
     <h5>Academic Details {{sem}}</h5>
+    {% if cour %}
     {% if marks %}
     <p>Sem is yet to finish.</p>
     {% else %}
@@ -264,7 +265,17 @@
           </tbody>
         </table>
       </div>
-      
+      {% endif %}
+      {% else %}
+      <div style="width: 25%; height: 10%;">
+        <button style="padding: 5%; margin-left: 10%; color: white; border: none; background-color: #009933; border-radius: 10px;">
+          <a
+            style="text-decoration: none; color: white;"
+            href="#"
+            ><span>Send form for course registration</span></a
+          >
+        </button>
+      </div>
     {% endif %}
   </div>
   {% endif %}

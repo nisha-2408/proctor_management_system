@@ -121,9 +121,11 @@ def student_signin(request):
             return redirect( 'student:dashboard', pk=student.USN)
         else:
             #edit the message
-            return HttpResponse("You do not have a proctor")
+            return redirect('no_proctor')
     return render(request, 'student_signin.html', context)
 
+def no_proc(request):
+    return render(request, 'no_proctor.html')
 
 def signout(request):
     logout(request)
